@@ -1,21 +1,26 @@
 import pygame
 from sys import exit
 from random import randint, choice
+import os
+
+#Spiel aus jedem Directory Starten
+game_dir = os.path.dirname(__file__)
+os.chdir(game_dir)
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        player_walk1 = pygame.image.load('Dino-Run/graphics/Player/player_walk_1.png').convert_alpha()
-        player_walk2 = pygame.image.load('Dino-Run/graphics/Player/player_walk_2.png').convert_alpha()
+        player_walk1 = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
+        player_walk2 = pygame.image.load('graphics/Player/player_walk_2.png').convert_alpha()
         self.player_walk = [player_walk1,player_walk2]
         self.player_index = 0
-        self.player_jump = pygame.image.load('Dino-Run/graphics/Player/jump.png').convert_alpha()
+        self.player_jump = pygame.image.load('graphics/Player/jump.png').convert_alpha()
         
         self.image = self.player_walk[self.player_index]
         self.rect = self.image.get_rect(midbottom = (200,300))
         self.gravity = 0
 
-        self.jump_sound = pygame.mixer.Sound('Dino-Run/audio/jump.mp3')
+        self.jump_sound = pygame.mixer.Sound('audio/jump.mp3')
         self.jump_sound.set_volume(0.1)
 
     def jump(self):
@@ -47,13 +52,13 @@ class Obstacle(pygame.sprite.Sprite):
     def __init__(self,type):
         super().__init__()
         if type == 'fly':
-            fly_1 = pygame.image.load('Dino-Run/graphics/Fly/Fly1.png').convert_alpha()
-            fly_2 = pygame.image.load('Dino-Run/graphics/Fly/Fly2.png').convert_alpha()
+            fly_1 = pygame.image.load('graphics/Fly/Fly1.png').convert_alpha()
+            fly_2 = pygame.image.load('graphics/Fly/Fly2.png').convert_alpha()
             self.frames = [fly_1,fly_2]
             y_pos = 210
         else:
-            snail_1 = pygame.image.load('Dino-Run/graphics/snail/snail1.png').convert_alpha()
-            snail_2 = pygame.image.load('Dino-Run/graphics/snail/snail2.png').convert_alpha()
+            snail_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
+            snail_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
             self.frames = [snail_1,snail_2]
             y_pos =300
 
@@ -93,13 +98,13 @@ def collisions_sprite():
 #Startup
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
-pygame.display.set_caption('Dino Run')
+pygame.display.set_caption('')
 clock = pygame.time.Clock()
-test_font = pygame.font.Font('Dino-Run/font/Pixeltype.ttf', 50)
+test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 game_active = False
 start_time = 0
 score = 0
-bg_Music = pygame.mixer.Sound('Dino-Run/audio/music.wav')
+bg_Music = pygame.mixer.Sound('audio/music.wav')
 bg_Music.set_volume(0.1)
 bg_Music.play(loops = -1)
 
@@ -110,15 +115,15 @@ player.add(Player())
 obstacle_group = pygame.sprite.Group()
 
 #Backround
-sky_surface = pygame.image.load('Dino-Run/graphics/Sky.png').convert()
-ground_surface = pygame.image.load('Dino-Run/graphics/ground.png').convert()
+sky_surface = pygame.image.load('graphics/Sky.png').convert()
+ground_surface = pygame.image.load('graphics/ground.png').convert()
 
 #Intro Screen
-player_stand = pygame.image.load('Dino-Run/graphics/Player/player_stand.png').convert_alpha()
+player_stand = pygame.image.load('graphics/Player/player_stand.png').convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand,0,2)
 player_stand_rect = player_stand.get_rect(center = (400,200)) 
 
-game_name = test_font.render('Dino Run',False,(111,196,169))
+game_name = test_font.render('',False,(111,196,169))
 game_name_rect = game_name.get_rect(center = (400,80))
 
 game_instruct = test_font.render('Press space to run',False,(111,196,169))
